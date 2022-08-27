@@ -1,0 +1,12 @@
+name: 'TEI validation'
+description: 'Validate XML documents against TEI schema'
+inputs:
+  tei-directory:
+    description: 'path to directory hosting TEI files'
+    required: true
+    default: 'tei'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.tei-directory }}
