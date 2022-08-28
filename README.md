@@ -40,5 +40,5 @@ both the TEI version and a file pattern as input arguments:
 
 ```sh
 docker build -t tei-validate-action .
-docker run -it -v /path/to/local/tei/directory:/tei tei-validate-action '4.4.0' 'tei/*.xml'
+docker run --rm -it -v /path/to/local/tei/directory:/tei tei-validate-action '4.4.0' 'tei/*.xml'
 ```
