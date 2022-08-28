@@ -1,5 +1,8 @@
 #!/bin/sh -l
 
-echo $1
-ls -l $1
-jing /tei_all.rng $1/*.xml
+version=${1:-4.4.0}
+schema_file=tei_all_$version.rng
+
+echo "Validating against TEI $version ($schema_file)..."
+
+jing /$schema_file $2

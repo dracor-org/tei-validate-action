@@ -1,12 +1,17 @@
 name: 'TEI validation'
 description: 'Validate XML documents against TEI schema'
 inputs:
-  tei-directory:
-    description: 'path to directory hosting TEI files'
-    required: true
-    default: 'tei'
+  tei-version:
+    description: 'TEI version to validate against'
+    required: false
+    default: '4.4.0'
+  tei-files:
+    description: 'path or pattern to TEI files'
+    required: false
+    default: 'tei/*.xml'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.tei-directory }}
+    - ${{ inputs.tei-version }}
+    - ${{ inputs.tei-files }}
