@@ -7,10 +7,10 @@ against the TEI_all schema.
 
 ## `tei-version`
 
-The TEI version to validate against. Default `"4.4.0"`.
+The TEI version to validate against. Default `"4.7.0"`.
 
-Supported versions are `4.0.0`, `4.1.0`, `4.2.0`, `4.2.1`, `4.2.2`, `4.3.0` and
-`4.4.0`.
+Supported versions are `4.0.0`, `4.1.0`, `4.2.0`, `4.2.1`, `4.2.2`, `4.3.0`,
+`4.4.0`, `4.5.0`, `4.6.0` and `4.7.0`.
 
 ## `tei-files`
 
@@ -40,5 +40,5 @@ both the TEI version and a file pattern as input arguments:
 
 ```sh
 docker build -t tei-validate-action .
-docker run --rm -it -v /path/to/local/tei/directory:/tei tei-validate-action '4.4.0' 'tei/*.xml'
+docker run --rm -it -v /path/to/local/tei/directory:/tei tei-validate-action '4.7.0' 'tei/*.xml'
 ```
