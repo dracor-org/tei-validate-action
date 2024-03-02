@@ -35,10 +35,23 @@ jobs:
 ```
 ## Testing locally
 
-With docker installed this action can also be run locally. Make sure to provide
-both the TEI version and a file pattern as input arguments:
+With docker installed this action can also be run locally. You need to mount
+your local TEI files to the `/tei` directory in the docker container:
 
 ```sh
-docker build -t tei-validate-action .
-docker run --rm -it -v /path/to/local/tei/directory:/tei tei-validate-action '4.7.0' 'tei/*.xml'
+docker pull dracor/tei-validate-action:latest
+docker run --rm -it -v /path/to/local/tei/dir:/tei dracor/tei-validate-action
+```
+
+This validates each XML file in the `/tei` directory against the latest
+supported TEI version.
+
+To validate against a different TEI version and/or to validate only specific
+files you can pass the version number and a file pattern as input arguments:
+
+```sh
+docker run --rm -it -v /path/to/local/tei/dir:/tei \
+  dracor/tei-validate-action \
+  '4.2.2' \
+  'tei/lessing-*.xml'
 ```
