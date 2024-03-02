@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Validate
-        uses: dracor-org/tei-validate-action@v1.0.0
+        uses: dracor-org/tei-validate-action@v1.2.0
         with:
           tei-version: '4.2.2'
 
