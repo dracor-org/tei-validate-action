@@ -4,9 +4,39 @@ exists() {
     [ -e "$1" ]
 }
 
-version=${1:-4.9.0}
-schema_file=tei_all_$version.rng
-files=${2:-tei/*.xml}
+# default versions
+TEI_VERSION="4.9.0"
+DRACOR_VERSION="1.0.0-rc.1"
+
+schema=${1:-all}
+
+if [ $schema = "all" ]; then
+  version=${2:-$TEI_VERSION}
+  schema_title="TEI_all $version"
+  schema_file=/tei_all_$version.rng
+  url="https://tei-c.org/Vault/P5/$version/xml/tei/custom/schema/relaxng/tei_all.rng"
+elif [ $schema = "dracor" ]; then
+  version=${2:-$DRACOR_VERSION}
+  schema_title="DraCor schema $version"
+  schema_file=/dracor_$version.rng
+  url="https://github.com/dracor-org/dracor-schema/releases/download/v$version/dracor-schema-v$version.rng"
+else
+  echo "::error::Unsupported schema '$schema'"
+  exit
+fi
+
+if [ ! -f $schema_file ]; then
+  [ "$VERBOSE" = "yes" ] && echo "Downloading $schema_file $url"
+  curl -Lsfo $schema_file $url
+  if [ $? > 0 ]; then
+    echo "::error::Failed to fetch schema $url"
+    exit
+  fi
+else
+  [ "$VERBOSE" = "yes" ] && echo "Schema $schema_file exists"
+fi
+
+files=${3:-tei/*.xml}
 
 tmp=/tmp/dracor
 validation_log=$tmp/validation.log
@@ -21,7 +51,7 @@ fi
 
 mkdir -p $tmp
 
-echo "## Validation against TEI $version" >> $summary
+echo "## Validation against $schema_title" >> $summary
 
 if exists $files; then
   echo >> $summary
@@ -31,7 +61,7 @@ else
   exit
 fi
 
-jing /$schema_file $files > $validation_log
+jing $schema_file $files > $validation_log
 jing_exit_code=$?
 
 cat $validation_log | sed  -E 's/(\.xml):[0-9]+:[0-9]+: .+$/\1/i' | sort \

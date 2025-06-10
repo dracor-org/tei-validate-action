@@ -1,21 +1,26 @@
 name: "TEI validation"
 description: "Validate XML documents against TEI schema"
 inputs:
-  tei-version:
-    description: "TEI version to validate against"
+  schema:
+    description: "Schema to validate against"
+    required: false
+    default: "all"
+  version:
+    description: "Schema version to validate against"
     required: false
     default: "4.9.0"
-  tei-files:
-    description: "path or pattern to TEI files"
+  files:
+    description: "Path or pattern to TEI files"
     required: false
     default: "tei/*.xml"
   fatal:
-    description: "exit with error code when validation fails"
+    description: "Exit with error code when validation fails"
     required: false
     default: "yes"
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - ${{ inputs.tei-version }}
-    - ${{ inputs.tei-files }}
+    - ${{ inputs.schema }}
+    - ${{ inputs.version }}
+    - ${{ inputs.files }}

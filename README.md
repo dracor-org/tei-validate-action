@@ -1,18 +1,23 @@
 # tei-validate-action
 
-This GitHub action validates TEI files specified by the `tei-files` input
-against the TEI_all schema.
+This GitHub action validates TEI files specified by the `files` input
+against various schemas.
 
 ## Inputs
 
-### `tei-version`
+### `schema`
 
-The TEI version to validate against. Default `"4.9.0"`.
+The schema to validate. Supported values are:
 
-Supported versions are `4.0.0`, `4.1.0`, `4.2.0`, `4.2.1`, `4.2.2`, `4.3.0`,
-`4.4.0`, `4.5.0`, `4.6.0`, `4.7.0`, `4.8.0` and `4.9.0`.
+- `"all"`: The TEI_all schema (default)
+- `"dracor"`: The [DraCor schema](https://github.com/dracor-org/dracor-schema)
 
-### `tei-files`
+### `version`
+
+The schema version to validate against. The defaults are `"4.9.0"` for TEI_all
+and `"1.0.0-rc.1"` for the DraCor schema.
+
+### `files`
 
 Path or pattern pointing to TEI files to validate. Default `"tei/*.xml"`
 
@@ -34,14 +39,18 @@ jobs:
     name: Validate TEI documents against TEI_all schema
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Validate against older schema
-        uses: dracor-org/tei-validate-action@v1.2.0
+        uses: actions/checkout@v4
+      - name: Validate against current TEI_all schema
+        uses: dracor-org/tei-validate-action@v2.0.0-beta.1
+      - name: Validate against older TEI_all schema
+        uses: dracor-org/tei-validate-action@v2.0.0-beta.1
         with:
-          tei-version: "4.2.2"
+          version: "4.2.2"
           fatal: "no"
-      - name: Validate against current schema
-        uses: dracor-org/tei-validate-action@v1.2.0
+      - name: Validate against current DraCor schema
+        uses: dracor-org/tei-validate-action@v2.0.0-beta.1
+        with:
+          schema: dracor
 ```
 
 ## Testing locally
@@ -63,6 +72,7 @@ files you can pass the version number and a file pattern as input arguments:
 ```sh
 docker run --rm -it -v /path/to/local/tei/dir:/tei \
   dracor/tei-validate-action \
+  all \
   '4.2.2' \
   'tei/lessing-*.xml'
 ```

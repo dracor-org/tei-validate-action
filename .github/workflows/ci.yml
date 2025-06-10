@@ -25,14 +25,27 @@ jobs:
         with:
           fatal: no
 
+      - name: Test DraCor Schema
+        id: test-dracor
+        uses: ./
+        with:
+          schema: dracor
+          fatal: no
+
       - name: Test Valid File
         id: test-valid
         uses: ./
         with:
-          tei-files: tei/valid.xml
+          files: tei/valid.xml
 
       - name: Test No Files
         id: test-no-files
         uses: ./
         with:
-          tei-files: tei/nosuchfile*
+          files: tei/nosuchfile*
+
+      - name: Test Unknown Schema
+        id: test-unknown-schema
+        uses: ./
+        with:
+          schema: foo
