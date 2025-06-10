@@ -5,16 +5,25 @@ against the TEI_all schema.
 
 ## Inputs
 
-## `tei-version`
+### `tei-version`
 
 The TEI version to validate against. Default `"4.9.0"`.
 
 Supported versions are `4.0.0`, `4.1.0`, `4.2.0`, `4.2.1`, `4.2.2`, `4.3.0`,
 `4.4.0`, `4.5.0`, `4.6.0`, `4.7.0`, `4.8.0` and `4.9.0`.
 
-## `tei-files`
+### `tei-files`
 
 Path or pattern pointing to TEI files to validate. Default `"tei/*.xml"`
+
+### `fatal`
+
+Exit with an error code when validation fails. Default `"yes"`.
+
+If you want to prevent the action from failing even if there are invalid files
+set this to `"no"`. This can be useful if you want to run the validation for
+informational purposes only without possibly blocking pull requests from being
+merged.
 
 ## Example usage
 
@@ -26,10 +35,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Validate
+      - name: Validate against older schema
         uses: dracor-org/tei-validate-action@v1.2.0
         with:
           tei-version: "4.2.2"
+          fatal: "no"
+      - name: Validate against current schema
+        uses: dracor-org/tei-validate-action@v1.2.0
 ```
 
 ## Testing locally

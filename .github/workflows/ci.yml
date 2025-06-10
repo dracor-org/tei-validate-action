@@ -23,7 +23,7 @@ jobs:
         id: test-default
         uses: ./
         with:
-          fail: no
+          fatal: no
 
       - name: Test Valid File
         id: test-valid

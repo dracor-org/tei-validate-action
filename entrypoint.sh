@@ -55,6 +55,6 @@ cat $validation_log | sed -E "s|^$PWD/||" >> $GITHUB_STEP_SUMMARY
 echo '```' >> $GITHUB_STEP_SUMMARY
 echo >> $GITHUB_STEP_SUMMARY
 
-if [ $INPUT_FAIL = "yes" ]; then
+if [ $INPUT_FATAL = "yes" ]; then
   exit $jing_exit_code
 fi

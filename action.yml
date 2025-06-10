@@ -9,7 +9,7 @@ inputs:
     description: "path or pattern to TEI files"
     required: false
     default: "tei/*.xml"
-  fail:
+  fatal:
     description: "exit with error code when validation fails"
     required: false
     default: "yes"
