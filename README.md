@@ -7,10 +7,10 @@ against the TEI_all schema.
 
 ## `tei-version`
 
-The TEI version to validate against. Default `"4.7.0"`.
+The TEI version to validate against. Default `"4.9.0"`.
 
 Supported versions are `4.0.0`, `4.1.0`, `4.2.0`, `4.2.1`, `4.2.2`, `4.3.0`,
-`4.4.0`, `4.5.0`, `4.6.0` and `4.7.0`.
+`4.4.0`, `4.5.0`, `4.6.0`, `4.7.0`, `4.8.0` and `4.9.0`.
 
 ## `tei-files`
 
@@ -29,10 +29,9 @@ jobs:
       - name: Validate
         uses: dracor-org/tei-validate-action@v1.2.0
         with:
-          tei-version: '4.2.2'
-
-
+          tei-version: "4.2.2"
 ```
+
 ## Testing locally
 
 With docker installed this action can also be run locally. You need to mount

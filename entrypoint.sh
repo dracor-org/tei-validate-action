@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-version=${1:-4.7.0}
+version=${1:-4.9.0}
 schema_file=tei_all_$version.rng
 files=${2:-tei/*.xml}
 
