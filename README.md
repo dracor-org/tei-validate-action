@@ -9,12 +9,12 @@ against various schemas.
 
 The schema to validate. Supported values are:
 
-- `"all"`: The TEI_all schema (default)
+- `"all"`: The TEI-All schema (default)
 - `"dracor"`: The [DraCor schema](https://github.com/dracor-org/dracor-schema)
 
 ### `version`
 
-The schema version to validate against. The defaults are `"4.9.0"` for TEI_all
+The schema version to validate against. The defaults are `"4.9.0"` for TEI-All
 and `"1.0.0-rc.1"` for the DraCor schema.
 
 ### `files`
@@ -36,13 +36,13 @@ merged.
 jobs:
   validate_tei:
     runs-on: ubuntu-latest
-    name: Validate TEI documents against TEI_all schema
+    name: Validate TEI documents against TEI-All schema
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Validate against current TEI_all schema
+      - name: Validate against current TEI-All schema
         uses: dracor-org/tei-validate-action@v2.0.0-beta.1
-      - name: Validate against older TEI_all schema
+      - name: Validate against older TEI-All schema
         uses: dracor-org/tei-validate-action@v2.0.0-beta.1
         with:
           version: "4.2.2"

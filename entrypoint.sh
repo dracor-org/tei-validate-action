@@ -15,7 +15,7 @@ echo "::debug::input version: $INPUT_VERSION"
 
 if [ $schema = "all" ]; then
   version=${2:-$TEI_VERSION}
-  schema_title="TEI_all $version"
+  schema_title="TEI-All $version"
   schema_file=/tei_all_$version.rng
   url="https://tei-c.org/Vault/P5/$version/xml/tei/custom/schema/relaxng/tei_all.rng"
 elif [ $schema = "dracor" ]; then
