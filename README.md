@@ -66,3 +66,9 @@ docker run --rm -it -v /path/to/local/tei/dir:/tei \
   '4.2.2' \
   'tei/lessing-*.xml'
 ```
+
+To output a markdown report you can set the `$VERBOSE` environment variable:
+
+```sh
+docker run --rm -it -e VERBOSE=yes -v $PWD/tei:/tei dracor/tei-validate-action
+```

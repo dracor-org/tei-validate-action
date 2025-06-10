@@ -1,5 +1,9 @@
 #!/bin/sh -l
 
+exists() {
+    [ -e "$1" ]
+}
+
 version=${1:-4.9.0}
 schema_file=tei_all_$version.rng
 files=${2:-tei/*.xml}
@@ -7,54 +11,58 @@ files=${2:-tei/*.xml}
 tmp=/tmp/dracor
 validation_log=$tmp/validation.log
 files_log=$tmp/validation-files.log
-# error_log=$tmp/validation-errors.log
 
-
-exists() {
-    [ -e "$1" ]
-}
+if [ -z "$GITHUB_STEP_SUMMARY" ]; then
+  # if we are not on GitHub write summary to our own temporary file
+  summary=$tmp/summary.md
+else
+  summary=$GITHUB_STEP_SUMMARY
+fi
 
 mkdir -p $tmp
 
-echo "## Validation against TEI $version" >> $GITHUB_STEP_SUMMARY
+echo "## Validation against TEI $version" >> $summary
 
 if exists $files; then
-  # echo "### Files" >> $GITHUB_STEP_SUMMARY
-  # for f in $files; do
-  #   echo "* $f" >> $GITHUB_STEP_SUMMARY
-  # done
-  echo >> $GITHUB_STEP_SUMMARY
+  echo >> $summary
 else
-  echo "No files found ($files)" >> $GITHUB_STEP_SUMMARY
-  echo >> $GITHUB_STEP_SUMMARY
+  echo "No files found ($files)" >> $summary
+  echo >> $summary
   exit
 fi
 
 jing /$schema_file $files > $validation_log
 jing_exit_code=$?
-cat $validation_log
 
 cat $validation_log | sed  -E 's/(\.xml):[0-9]+:[0-9]+: .+$/\1/i' | sort \
   | uniq > $files_log
 
 if [ $jing_exit_code = 0 ]; then
-  echo "All files are valid." >> $GITHUB_STEP_SUMMARY
-  echo >> $GITHUB_STEP_SUMMARY
+  echo "All files are valid." >> $summary
+  echo >> $summary
   exit
 else
-  echo "### Invalid files" >> $GITHUB_STEP_SUMMARY
+  echo "### Invalid files\n" >> $summary
   for f in $(cat $files_log | sed -E "s|^$PWD/||"); do
-    echo "* $f" >> $GITHUB_STEP_SUMMARY
+    echo "* $f" >> $summary
   done
 fi
 
-echo "### Errors" >> $GITHUB_STEP_SUMMARY
-echo >> $GITHUB_STEP_SUMMARY
-echo '```' >> $GITHUB_STEP_SUMMARY
-cat $validation_log | sed -E "s|^$PWD/||" >> $GITHUB_STEP_SUMMARY
-echo '```' >> $GITHUB_STEP_SUMMARY
-echo >> $GITHUB_STEP_SUMMARY
+echo "\n### Errors" >> $summary
+echo >> $summary
+echo '```' >> $summary
+cat $validation_log | sed -E "s|^$PWD/||" >> $summary
+echo '```' >> $summary
+echo >> $summary
 
-if [ $INPUT_FATAL = "yes" ]; then
+# output validation results to console
+if [ ! "$VERBOSE" = "yes" ]; then
+  cat $validation_log
+elif [ -z "$GITHUB_STEP_SUMMARY" ]; then
+  # if we are not on GitHub dump the summary
+  cat $summary
+fi
+
+if [ "$INPUT_FATAL" = "yes" ]; then
   exit $jing_exit_code
 fi
