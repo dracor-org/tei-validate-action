@@ -1,7 +1,6 @@
 name: Continuous Integration
 
 on:
-  workflow_dispatch:
   pull_request:
   push:
     branches:
@@ -20,6 +19,20 @@ jobs:
         id: checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Test Local Action
-        id: test-action
+      - name: Test Default Inputs
+        id: test-default
         uses: ./
+        with:
+          fail: no
+
+      - name: Test Valid File
+        id: test-valid
+        uses: ./
+        with:
+          tei-files: tei/valid.xml
+
+      - name: Test No Files
+        id: test-no-files
+        uses: ./
+        with:
+          tei-files: tei/nosuchfile*
