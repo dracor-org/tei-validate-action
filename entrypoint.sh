@@ -10,6 +10,9 @@ DRACOR_VERSION="1.0.0-rc.1"
 
 schema=${1:-all}
 
+echo "::debug::input schema: $INPUT_SCHEMA"
+echo "::debug::input version: $INPUT_VERSION"
+
 if [ $schema = "all" ]; then
   version=${2:-$TEI_VERSION}
   schema_title="TEI_all $version"
