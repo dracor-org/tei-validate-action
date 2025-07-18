@@ -1,5 +1,7 @@
 # tei-validate-action
 
+**This repo has retired now. You may want to have a look at [dracor-validate-action](https://github.com/dracor-org/dracor-validate-action) for an alternative.**
+
 This GitHub action validates TEI files specified by the `files` input
 against various schemas.
 
